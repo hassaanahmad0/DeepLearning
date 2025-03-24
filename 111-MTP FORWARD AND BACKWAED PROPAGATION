@@ -23,7 +23,7 @@ def sigmoid_derivative(x):
     return sigmoid(x) * (1 - sigmoid(x))
 
 # Number of epochs
-epochs = 2
+epochs = 5
 
 # Initialize an array to store total errors
 errors = np.zeros(epochs)
