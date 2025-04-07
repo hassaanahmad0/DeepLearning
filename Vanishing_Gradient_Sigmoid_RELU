@@ -1,0 +1,124 @@
+import numpy as np
+
+# Define the sigmoid function and its derivative
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_derivative(x):
+    return sigmoid(x) * (1 - sigmoid(x))
+
+# Define the ReLU function and its derivative
+def relu(x):
+    return np.maximum(0, x)
+
+def relu_derivative(x):
+    return np.where(x > 0, 1, 0)
+
+# Initialize weights and biases
+w1, b1 = 0.5, 1
+w2, b2 = 0.5, 1
+w3, b3 = 0.5, 1
+
+# Input and true output
+x = 1
+y = 1
+
+# Sigmoid Network
+print("Sigmoid Network:")
+
+# Forward pass (Sigmoid)
+z1_sigmoid = w1 * x + b1
+a1_sigmoid = sigmoid(z1_sigmoid)
+
+z2_sigmoid = w2 * a1_sigmoid + b2
+a2_sigmoid = sigmoid(z2_sigmoid)
+
+z3_sigmoid = w3 * a2_sigmoid + b3
+y_pred_sigmoid = sigmoid(z3_sigmoid)
+
+# Loss function (Mean Squared Error)
+loss_sigmoid = 0.5 * (y - y_pred_sigmoid) ** 2
+
+# Backward pass (Gradient calculation for Sigmoid)
+# Output layer
+dL_dy_pred_sigmoid = -(y - y_pred_sigmoid)
+dy_pred_dz3_sigmoid = sigmoid_derivative(z3_sigmoid)
+dL_dw3_sigmoid = dL_dy_pred_sigmoid * dy_pred_dz3_sigmoid * a2_sigmoid
+
+# Layer 2
+dL_da2_sigmoid = dL_dy_pred_sigmoid * dy_pred_dz3_sigmoid * w3
+da2_dz2_sigmoid = sigmoid_derivative(z2_sigmoid)
+dL_dw2_sigmoid = dL_da2_sigmoid * da2_dz2_sigmoid * a1_sigmoid
+
+# Layer 1
+dL_da1_sigmoid = dL_da2_sigmoid * da2_dz2_sigmoid * w2
+da1_dz1_sigmoid = sigmoid_derivative(z1_sigmoid)
+dL_dw1_sigmoid = dL_da1_sigmoid * da1_dz1_sigmoid * x
+
+# Print results for Sigmoid
+print("\nForward Pass (Sigmoid):")
+print(f"Layer 1 Output (a1): {a1_sigmoid:.4f}")
+print(f"Layer 2 Output (a2): {a2_sigmoid:.4f}")
+print(f"Predicted Output (y_pred): {y_pred_sigmoid:.4f}")
+print(f"Loss: {loss_sigmoid:.4f}")
+
+print("\nBackward Pass (Gradients for Sigmoid):")
+print(f"Gradient w.r.t. w3: {dL_dw3_sigmoid:.4f}")
+print(f"Gradient w.r.t. w2: {dL_dw2_sigmoid:.4f}")
+print(f"Gradient w.r.t. w1: {dL_dw1_sigmoid:.4f}")
+
+# ReLU Network
+print("\nReLU Network:")
+
+# Forward pass (ReLU)
+z1_relu = w1 * x + b1
+a1_relu = relu(z1_relu)
+
+z2_relu = w2 * a1_relu + b2
+a2_relu = relu(z2_relu)
+
+z3_relu = w3 * a2_relu + b3
+y_pred_relu = relu(z3_relu)
+
+# Loss function (Mean Squared Error)
+loss_relu = 0.5 * (y - y_pred_relu) ** 2
+
+# Backward pass (Gradient calculation for ReLU)
+# Output layer
+dL_dy_pred_relu = -(y - y_pred_relu)
+dy_pred_dz3_relu = relu_derivative(z3_relu)
+dL_dw3_relu = dL_dy_pred_relu * dy_pred_dz3_relu * a2_relu
+
+# Layer 2
+dL_da2_relu = dL_dy_pred_relu * dy_pred_dz3_relu * w3
+da2_dz2_relu = relu_derivative(z2_relu)
+dL_dw2_relu = dL_da2_relu * da2_dz2_relu * a1_relu
+
+# Layer 1
+dL_da1_relu = dL_da2_relu * da2_dz2_relu * w2
+da1_dz1_relu = relu_derivative(z1_relu)
+dL_dw1_relu = dL_da1_relu * da1_dz1_relu * x
+
+# Print results for ReLU
+print("\nForward Pass (ReLU):")
+print(f"Layer 1 Output (a1): {a1_relu:.4f}")
+print(f"Layer 2 Output (a2): {a2_relu:.4f}")
+print(f"Predicted Output (y_pred): {y_pred_relu:.4f}")
+print(f"Loss: {loss_relu:.4f}")
+
+print("\nBackward Pass (Gradients for ReLU):")
+print(f"Gradient w.r.t. w3: {dL_dw3_relu:.4f}")
+print(f"Gradient w.r.t. w2: {dL_dw2_relu:.4f}")
+print(f"Gradient w.r.t. w1: {dL_dw1_relu:.4f}")
+
+# Comparison
+print("\nComparison:")
+print("Sigmoid Gradients:")
+print(f"Gradient w.r.t. w3: {dL_dw3_sigmoid:.4f}")
+print(f"Gradient w.r.t. w2: {dL_dw2_sigmoid:.4f}")
+print(f"Gradient w.r.t. w1: {dL_dw1_sigmoid:.4f}")
+
+print("\nReLU Gradients:")
+print(f"Gradient w.r.t. w3: {dL_dw3_relu:.4f}")
+print(f"Gradient w.r.t. w2: {dL_dw2_relu:.4f}")
+print(f"Gradient w.r.t. w1: {dL_dw1_relu:.4f}")
