@@ -1,0 +1,42 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Sigmoid function
+def sigmoid(x, w=1, b=0):
+    return 1 / (1 + np.exp(-(w*x + b)))
+
+# Generate x values
+x = np.linspace(-10, 10, 400)
+
+# Define different values for w (steepness) and b (position)
+w_values = [1, 2, 3]  # Different steepness values
+b_values = [0, 1.5, 2]    # Different position values
+
+# Colors for plotting
+colors = ['b', 'orange', 'g']
+
+# Plot sigmoids with different steepness
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+for i, w in enumerate(w_values):
+    plt.plot(x, sigmoid(x, w=w, b=0), color=colors[i], label=f'w = {w}, b = 0', linestyle='--')
+plt.title('Effect of w (Steepness) on Sigmoid')
+plt.xlabel('x')
+plt.ylabel('σ(x)')
+plt.legend()
+plt.grid()
+
+# Plot sigmoids with different positions
+plt.subplot(1, 2, 2)
+for i, b in enumerate(b_values):
+    plt.plot(x, sigmoid(x, w=1, b=b), color=colors[i], label=f'w = 1, b = {b}', linestyle='dotted')
+plt.title('Effect of b (Position) on Sigmoid')
+plt.xlabel('x')
+plt.ylabel('σ(x)')
+plt.legend()
+plt.grid()
+
+# Show the plots
+plt.tight_layout()
+plt.show()
