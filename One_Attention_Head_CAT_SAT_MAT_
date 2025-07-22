@@ -1,0 +1,47 @@
+import tensorflow as tf
+import numpy as np
+
+# Input
+x = tf.constant([
+    [0.1, 0.2, 0.3, 0.4],
+    [0.5, 0.6, 0.7, 0.8],
+    [0.9, 1.0, 1.1, 1.2]
+], dtype=tf.float32)
+
+# Projection matrices (EXACT from manual)
+W_Q = tf.constant([
+    [0.1, 0.2, 0.3],
+    [0.4, 0.5, 0.6],
+    [0.7, 0.8, 0.9],
+    [1.0, 1.1, 1.2]
+], dtype=tf.float32)
+W_K = W_Q  # Same as Q
+W_V = tf.constant([
+    [0.1, 0.2],
+    [0.3, 0.4],
+    [0.5, 0.6],
+    [0.7, 0.8]
+], dtype=tf.float32)
+
+# Manual projection to Queries, Keys & Values
+queries = tf.matmul(x, W_Q)
+print("Queries Matrix: ",queries)
+keys = tf.matmul(x, W_K)
+print("Keys Matrix:",keys)
+values = tf.matmul(x, W_V)
+print("Values Matrix:", values)
+
+# Attention
+scores = tf.matmul(queries, keys, transpose_b=True)
+print("Attention Scores Matrix: ",scores)
+scaled = scores / tf.sqrt(3.0)
+print("Attention Score Matrix Scaled: ",scaled)
+weights = tf.nn.softmax(scaled, axis=-1)
+print("Attention Weights Matrix:", weights)
+
+# Contextualized Value Vectors for each word
+context = tf.matmul(weights, values)
+
+print("Context vectors for each word:")
+print(context.numpy())
+     
