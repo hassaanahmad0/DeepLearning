@@ -1,0 +1,56 @@
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Define terms and vectors from the example
+terms = [
+    "apple juice",
+    "cappuccino",
+    "cheese bread sticks",
+    "cheese pizza",
+    "cinnamon bread sticks",
+    "donut",
+    "green tea",
+    "latte",
+    "soda",
+    "water"
+]
+
+vectors = np.array([
+    [1, 5, 0, 0, 0, 4, 4, 3],
+    [0, 5, 3, 0, 4, 1, 2, 3],
+    [5, 0, 4, 5, 0, 1, 4, 2],
+    [5, 0, 4, 4, 0, 1, 5, 2],
+    [5, 0, 4, 5, 0, 1, 4, 2],
+    [5, 0, 1, 5, 0, 4, 5, 1],
+    [0, 5, 0, 0, 2, 1, 1, 5],
+    [0, 5, 4, 0, 4, 1, 3, 3],
+    [0, 5, 0, 0, 3, 5, 5, 0],
+    [0, 5, 0, 0, 0, 0, 0, 5]
+])
+
+# Function to calculate and print similarity scores
+def print_similarities(target_term, all_terms, all_vectors):
+    # Find the target term's index
+    target_index = all_terms.index(target_term)
+    target_vector = all_vectors[target_index].reshape(1, -1)
+
+    # Calculate cosine similarities with all other terms
+    similarities = cosine_similarity(target_vector, all_vectors)[0]
+
+    # Pair terms with their similarity scores
+    term_scores = list(zip(all_terms, similarities))
+
+    # Sort by similarity (descending) and exclude self-comparison
+    term_scores_sorted = sorted(term_scores, key=lambda x: x[1], reverse=True)
+    term_scores_sorted = [item for item in term_scores_sorted if item[0] != target_term]
+
+    # Print results
+    print(f"\nVector Similarity Scores: {target_term}")
+    for term, score in term_scores_sorted:
+        print(f"{score:.2f} {term}")
+
+# Calculate and print similarities for our target terms
+print_similarities("green tea", terms, vectors)
+print_similarities("cheese pizza", terms, vectors)
+print_similarities("donut", terms, vectors)
+     
